@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
 import ROUTES from "../app/routes";
+import { addCard } from "../features/cards/cardsSlice";
 import { selectTopics } from "../features/topics/topicsSlice";
 import { createQuiz } from "../features/quizzes/quizzesSlice";
 
@@ -23,8 +24,18 @@ export default function NewQuizForm() {
     }
 
     const cardIds = [];
-
-    // create the new cards here and add each card's id to cardIds
+    cards.forEach(card => {
+      const { front, back } = card;
+      const id = uuidv4();
+      dispatch(addCard(
+        {
+          id: id,
+          front: front,
+          back: back
+        }
+      ));
+      cardIds.push(id);
+    });
     
     dispatch(createQuiz(
       {
